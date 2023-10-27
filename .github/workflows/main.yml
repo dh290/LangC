@@ -1,0 +1,27 @@
+name: C Build and Run
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install GCC
+      run: sudo apt update && sudo apt install -y gcc
+
+    - name: Compile C code
+      run: gcc -o output main.c  # 'main.c' 
+
+    - name: Run the program
+      run: ./output > output.txt
+
+    - name: Upload result as artifact
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: output.txt
+        path: ./output.txt
